@@ -1,6 +1,15 @@
 {
-    "name": "resurtm/.",
+    "name": "sym-soc-net",
+    "version": "0.0.1",
     "license": "proprietary",
+    "authors": [
+        {
+            "name": "resurtm",
+            "email": "resurtm@gmail.com",
+            "homepage": "https://github.com/resurtm",
+            "role": "Developer"
+        }
+    ],
     "type": "project",
     "autoload": {
         "psr-4": {

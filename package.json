@@ -1,0 +1,21 @@
+{
+  "name": "sym-soc-net",
+  "version": "0.0.1",
+  "license": "proprietary",
+  "author": {
+    "name": "resurtm",
+    "email": "resurtm@gmail.com",
+    "url": "https://github.com/resurtm"
+  },
+  "dependencies": {
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "node-sass": "^4.1.1",
+    "sass-loader": "^4.1.1",
+    "webpack": "^1.14.0"
+  },
+  "scripts": {
+    "build-assets": "./node_modules/webpack/bin/webpack.js",
+    "watch-assets": "./node_modules/webpack/bin/webpack.js --watch"
+  }
+}
