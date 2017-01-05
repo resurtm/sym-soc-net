@@ -1,3 +1,5 @@
+{% set r = app.request.attributes.get('_route') %}
+
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <div class="navbar-header">
@@ -8,34 +10,60 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="{{ path('home') }}">Social Network</a>
         </div>
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <li class="{{ r == 'home' ? 'active' : '' }}"><a href="{{ path('home') }}">Home</a></li>
+
+                <li class="dropdown {{ r == 'all_users' or r == 'new_users' ? 'active' : '' }}">
+                    <a href="{{ path('all_users') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li class="{{ r == 'all_users' ? 'active' : '' }}">
+                            <a href="{{ path('all_users') }}">All Users</a>
+                        </li>
+                        <li class="{{ r == 'new_users' ? 'active' : '' }}">
+                            <a href="{{ path('new_users') }}">New Users</a>
+                        </li>
                     </ul>
+                </li>
+
+                <li class="dropdown {{ r == 'recent_posts' or r == 'all_posts' or r == 'create_post' or r == 'my_posts' ? 'active' : '' }}">
+                    <a href="{{ path('recent_posts') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Posts <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="{{ r == 'recent_posts' ? 'active' : '' }}">
+                            <a href="{{ path('recent_posts') }}">Recent Popular</a>
+                        </li>
+                        <li class="{{ r == 'all_posts' ? 'active' : '' }}">
+                            <a href="{{ path('all_posts') }}">Newest Posts</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Actions</li>
+                        <li class="{{ r == 'create_post' ? 'active' : '' }}">
+                            <a href="{{ path('create_post') }}">Create New Post</a>
+                        </li>
+                        <li class="{{ r == 'my_posts' ? 'active' : '' }}">
+                            <a href="{{ path('my_posts') }}">My Posts</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="{{ r == 'bookmarks' ? 'active' : '' }}">
+                    <a href="{{ path('bookmarks') }}">Bookmarks</a>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="../navbar/">Default</a></li>
-                <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
-                <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                <li class="{{ r == 'signup' ? 'active' : '' }}">
+                    <a href="{{ path('signup') }}">Create Account</a>
+                </li>
+                <li class="{{ r == 'login' ? 'active' : '' }}">
+                    <a href="{{ path('login') }}">Sign In</a>
+                </li>
             </ul>
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
 </nav>
