@@ -57,12 +57,18 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="{{ r == 'signup' ? 'active' : '' }}">
-                    <a href="{{ path('signup') }}">Create Account</a>
-                </li>
-                <li class="{{ r == 'login' ? 'active' : '' }}">
-                    <a href="{{ path('login') }}">Sign In</a>
-                </li>
+                {% if app.user %}
+                    <li>
+                        <a href="{{ logout_path('main') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="{{ r == 'signup' ? 'active' : '' }}">
+                        <a href="{{ path('signup') }}">Create Account</a>
+                    </li>
+                    <li class="{{ r == 'login' ? 'active' : '' }}">
+                        <a href="{{ path('login') }}">Sign In</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
