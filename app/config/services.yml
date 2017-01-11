@@ -7,3 +7,9 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    app.password_changer:
+        class: AppBundle\Cabinet\PasswordChanger
+        arguments:
+            - "@=service('security.token_storage').getToken().getUser()"
+            - "@security.password_encoder"
