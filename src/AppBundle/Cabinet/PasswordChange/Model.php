@@ -1,16 +1,24 @@
 <?php
 
-namespace AppBundle\Cabinet;
+namespace AppBundle\Cabinet\PasswordChange;
 
-class PasswordChange
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+
+class Model
 {
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(min=6, minMessage="Minimal length is 6 characters.")
+     * @SecurityAssert\UserPassword(message="Password does not match on what you have now.")
      */
     private $oldPassword;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(min=6, minMessage="Minimal length is 6 characters.")
      */
     private $newPassword;
 
