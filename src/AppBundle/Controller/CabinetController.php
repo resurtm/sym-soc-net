@@ -30,6 +30,9 @@ class CabinetController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordChange = $form->getData();
             $this->get('app.password_change.changer')->changePassword($passwordChange);
+
+            $this->addFlash('success', 'Password has been changed');
+
             return $this->redirectToRoute('cabinet_password');
         }
 
