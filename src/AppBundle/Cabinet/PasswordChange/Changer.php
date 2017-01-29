@@ -2,6 +2,7 @@
 
 namespace AppBundle\Cabinet\PasswordChange;
 
+use AppBundle\Cabinet\PasswordChange\Exception\InvalidPasswordException;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -33,8 +34,8 @@ class Changer
         User $user
     ) {
         $this->entityManager = $entityManager;
-        $this->user = $user;
         $this->passwordEncoder = $passwordEncoder;
+        $this->user = $user;
     }
 
     /**
@@ -44,12 +45,11 @@ class Changer
     public function changePassword($passwordChange)
     {
         if (!$this->passwordEncoder->isPasswordValid($this->user, $passwordChange->getOldPassword())) {
-            throw new \Exception('Invalid old password has been provided in password change model');
+            throw new InvalidPasswordException('Invalid old password has been provided in password change model');
         }
 
-        $this->user->setPassword(
-            $this->passwordEncoder->encodePassword($this->user, $passwordChange->getNewPassword())
-        );
+        $encodedPassword = $this->passwordEncoder->encodePassword($this->user, $passwordChange->getNewPassword());
+        $this->user->setPassword($encodedPassword);
 
         $this->entityManager->persist($this->user);
         $this->entityManager->flush();
