@@ -11,9 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Type extends AbstractType
 {
-    /**
-     * @inheritdoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('oldPassword', RepeatedType::class, [
@@ -33,13 +30,15 @@ class Type extends AbstractType
         $builder->add('save', SubmitType::class, ['label' => 'Update']);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Cabinet\PasswordChange\Model',
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'password_change_type';
     }
 }
