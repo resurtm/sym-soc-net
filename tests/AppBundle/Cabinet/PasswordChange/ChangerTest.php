@@ -38,18 +38,11 @@ class ChangerTest extends KernelTestCase
         /** @var UserPasswordEncoderInterface $passwordEncoder */
         $passwordEncoder = $this->container->get('security.password_encoder');
 
-        /** @var User|\PHPUnit_Framework_MockObject_MockObject $passwordEncodeUser */
-        $passwordEncodeUser = $this->createMock(User::class);
-        $passwordEncodeUser->expects($this->once())
-            ->method('getSalt')
-            ->willReturn(null);
-        $encodedPassword1 = $passwordEncoder->encodePassword($passwordEncodeUser, self::PASSWORD1);
-
         /** @var User|\PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->createMock(User::class);
         $user->expects($this->once())
             ->method('getPassword')
-            ->willReturn($encodedPassword1);
+            ->willReturn($passwordEncoder->encodePassword(new User(), self::PASSWORD1));
 
         /** @var Model|\PHPUnit_Framework_MockObject_MockObject $model */
         $model = $this->createMock(Model::class);
@@ -58,7 +51,6 @@ class ChangerTest extends KernelTestCase
             ->willReturn(self::PASSWORD2);
 
         $changer = new Changer($entityManager, $passwordEncoder, $user);
-
         try {
             $changer->changePassword($model);
             $this->fail('Expected exception ' . InvalidPasswordException::class . ' was not thrown');
@@ -89,7 +81,9 @@ class ChangerTest extends KernelTestCase
             }));
 
         /** @var EntityManager|\PHPUnit_Framework_MockObject_MockObject $entityManager */
-        $entityManager = $this->createMock(EntityManager::class);
+        $entityManager = $this->getMockBuilder(EntityManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $entityManager->expects($this->once())
             ->method('persist')
             ->with($this->equalTo($user));

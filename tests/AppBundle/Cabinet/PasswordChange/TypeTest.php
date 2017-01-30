@@ -43,7 +43,7 @@ class TypeTest extends TypeTestCase
         $view = $form->createView();
         $children = $view->children;
 
-        foreach (array_keys($formData) as $key) {
+        foreach ($formData as $key => $value) {
             $this->assertArrayHasKey($key, $children);
         }
     }
