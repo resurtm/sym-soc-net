@@ -72,36 +72,24 @@ class ChangerTest extends KernelTestCase
         /** @var UserPasswordEncoderInterface $passwordEncoder */
         $passwordEncoder = $this->container->get('security.password_encoder');
 
-        /** @var User|\PHPUnit_Framework_MockObject_MockObject $passwordEncodeUser */
-        $passwordEncodeUser = $this->createMock(User::class);
-        $passwordEncodeUser->expects($this->once())
-            ->method('getSalt')
-            ->willReturn(null);
-        $encodedPassword1 = $passwordEncoder->encodePassword($passwordEncodeUser, self::PASSWORD1);
-
         /** @var User|\PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->createMock(User::class);
         $user->expects($this->once())
             ->method('getPassword')
-            ->willReturn($encodedPassword1);
+            ->willReturn($passwordEncoder->encodePassword(new User(), self::PASSWORD1));
         $user->expects($this->once())
             ->method('setPassword')
-            ->with($this->callback(function ($subject) use ($passwordEncoder) {
-                /** @var User|\PHPUnit_Framework_MockObject_MockObject $passwordCheckUser */
-                $passwordCheckUser = $this->createMock(User::class);
-                $passwordCheckUser->expects($this->once())
-                    ->method('getSalt')
-                    ->willReturn(null);
-                $passwordCheckUser->expects($this->once())
+            ->with($this->callback(function ($encodedPassword) use ($passwordEncoder) {
+                /** @var User|\PHPUnit_Framework_MockObject_MockObject $user */
+                $user = $this->createMock(User::class);
+                $user->expects($this->once())
                     ->method('getPassword')
-                    ->willReturn($subject);
-                return $passwordEncoder->isPasswordValid($passwordCheckUser, self::PASSWORD2);
+                    ->willReturn($encodedPassword);
+                return $passwordEncoder->isPasswordValid($user, self::PASSWORD2);
             }));
 
         /** @var EntityManager|\PHPUnit_Framework_MockObject_MockObject $entityManager */
-        $entityManager = $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $entityManager = $this->createMock(EntityManager::class);
         $entityManager->expects($this->once())
             ->method('persist')
             ->with($this->equalTo($user));

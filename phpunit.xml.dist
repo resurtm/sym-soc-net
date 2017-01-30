@@ -30,7 +30,7 @@
     </filter>
 
     <logging>
-        <log type="coverage-html" target="./var/logs/coverage"/>
+        <log type="coverage-html" target="./var/tests_coverage"/>
         <log type="coverage-text" target="php://stdout"/>
     </logging>
 </phpunit>
